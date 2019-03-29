@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4825380887745868621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5358514751238499830}
+  - component: {fileID: 8384686271357432096}
+  m_Layer: 0
+  m_Name: World
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5358514751238499830
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825380887745868621}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8384686271357432096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825380887745868621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cbf477706ae56d4da421edb89729637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 10000
+  rotation:
+    x: 0
+    y: 0
+    z: 0
+    w: 0
+  detailDistances:
+  - 100000
+  - 50000
+  - 25000
+  - 12500
+  - 6250
+  - 3125
+  - 1562.5
+  calculateMsds: 0
+  detailMsds:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  lodModeBehindCam: 1
+  behindCameraExtraRange: 0
+  planetMaterial: {fileID: 2100000, guid: 9381ec0af1997fc4d869c891f2af9d3b, type: 2}
+  uvType: 1
+  uvScale: 16
+  generateColliders: 0000000000000001
+  visSphereRadiusMod: 1.2
+  updateAllQuads: 0
+  maxQuadsToUpdate: 200
+  rotationUpdateThreshold: 0.5
+  recomputeQuadDistancesThreshold: 300
+  quadsSplittingSimultaneously: 4
+  useScaledSpace: 0
+  createScaledSpaceCopy: 0
+  scaledSpaceDistance: 15000
+  scaledSpaceFactor: 100000
+  scaledSpaceMaterial: {fileID: 0}
+  scaledSpaceCopy: {fileID: 0}
+  useBiomeMap: 0
+  biomeMapTexture: {fileID: 2800000, guid: 2cfc97067d0164c47a86977092e824c4, type: 3}
+  textureHeights:
+  - 0
+  - 0.5
+  - 1
+  textureIds: 000102
+  useSlopeTexture: 0
+  slopeAngle: 60
+  slopeTexture: 5
+  mode: 0
+  heightScale: 0.08
+  heightmapSizeX: 8192
+  heightmapSizeY: 4096
+  heightmap16bit: 0
+  heightmapTextAsset: {fileID: 4900000, guid: 7faf848efaaf8f64b883d7becebd7efc, type: 3}
+  useBicubicInterpolation: 0
+  computeShader: {fileID: 0}
+  noiseSerialized: {fileID: 4900000, guid: 69e743fdeb0c9f04cb7c327af1d967a0, type: 3}
+  hybridModeNoiseDiv: 20
+  constantHeight: 0
+  generateDetails: 0
+  generateGrass: 0
+  planetIsRotating: 0
+  grassMaterial: {fileID: 0}
+  grassPerQuad: 100
+  grassLevel: 7
+  detailDistance: 100
+  detailMeshes: []
+  detailPrefabs: []
+  generateFoliageInEveryBiome: 0
+  foliageBiomes: 01
+  detailObjectsGeneratingSimultaneously: 3
+  floatingOrigin: {fileID: 0}
+  hideQuads: 0
+  numQuads: 0

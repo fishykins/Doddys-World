@@ -1,0 +1,475 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82eb997f5678e6c4f8158fc5a6dd3bbe, type: 3}
+  m_Name: Planet Goon
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 114081249564763792}
+  - {fileID: 114229095510443674}
+  - {fileID: 114146117213136832}
+  - {fileID: 114701630866854336}
+  - {fileID: 114276783620982086}
+  - {fileID: 114957783391646562}
+  - {fileID: 114230665792579978}
+  - {fileID: 114116006407317198}
+--- !u!114 &114081249564763792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c70b46587296f7046b177770b0b8ef51, type: 3}
+  m_Name: Generator Node
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -520, y: -200}
+  ports:
+    keys:
+    - output
+    values:
+    - _fieldName: output
+      _node: {fileID: 114081249564763792}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input0
+        node: {fileID: 114276783620982086}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 0
+  previewChanged: 0
+  preview: {fileID: 0}
+  autoUpdatePreview: 1
+  noiseType: 3
+  fractalType: 2
+  seed: 42
+  octaves: 8
+  frequency: 0.16
+  lacunarity: 4.07
+--- !u!114 &114116006407317198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863727c69a2b8a54c9866b9b1e89e115, type: 3}
+  m_Name: Operator Node
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 984, y: -136}
+  ports:
+    keys:
+    - output
+    - input0
+    - input1
+    - input2
+    values:
+    - _fieldName: output
+      _node: {fileID: 114116006407317198}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 114146117213136832}
+        reroutePoints: []
+      - fieldName: input
+        node: {fileID: 114229095510443674}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input0
+      _node: {fileID: 114116006407317198}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114230665792579978}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input1
+      _node: {fileID: 114116006407317198}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114957783391646562}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input2
+      _node: {fileID: 114116006407317198}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+  previewChanged: 0
+  preview: {fileID: 0}
+  autoUpdatePreview: 1
+  opType: 7
+  parameters:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  opType_old: 7
+--- !u!114 &114146117213136832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c7f4ddf48ff0c841bf662c0c2f1258d, type: 3}
+  m_Name: Preview Node
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1496, y: 168}
+  ports:
+    keys:
+    - input
+    values:
+    - _fieldName: input
+      _node: {fileID: 114146117213136832}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114116006407317198}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+  previewChanged: 0
+  preview: {fileID: 0}
+  autoUpdatePreview: 0
+--- !u!114 &114229095510443674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87493bffa97092841bbec833e6955429, type: 3}
+  m_Name: Saving Node
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1640, y: -72}
+  ports:
+    keys:
+    - input
+    values:
+    - _fieldName: input
+      _node: {fileID: 114229095510443674}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114116006407317198}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+  filename: World
+--- !u!114 &114230665792579978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c70b46587296f7046b177770b0b8ef51, type: 3}
+  m_Name: Generator Node
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 88, y: -584}
+  ports:
+    keys:
+    - output
+    values:
+    - _fieldName: output
+      _node: {fileID: 114230665792579978}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input0
+        node: {fileID: 114116006407317198}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 0
+  previewChanged: 0
+  preview: {fileID: 0}
+  autoUpdatePreview: 1
+  noiseType: 9
+  fractalType: 1
+  seed: 42
+  octaves: 18
+  frequency: 10.9
+  lacunarity: 2
+--- !u!114 &114276783620982086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863727c69a2b8a54c9866b9b1e89e115, type: 3}
+  m_Name: Operator Node
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -200, y: -40}
+  ports:
+    keys:
+    - output
+    - input0
+    - input1
+    - input2
+    values:
+    - _fieldName: output
+      _node: {fileID: 114276783620982086}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input0
+        node: {fileID: 114957783391646562}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input0
+      _node: {fileID: 114276783620982086}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114081249564763792}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input1
+      _node: {fileID: 114276783620982086}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114701630866854336}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input2
+      _node: {fileID: 114276783620982086}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+  previewChanged: 0
+  preview: {fileID: 0}
+  autoUpdatePreview: 1
+  opType: 7
+  parameters:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  opType_old: 7
+--- !u!114 &114701630866854336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863727c69a2b8a54c9866b9b1e89e115, type: 3}
+  m_Name: Operator Node
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -520, y: 136}
+  ports:
+    keys:
+    - output
+    - input0
+    - input1
+    - input2
+    values:
+    - _fieldName: output
+      _node: {fileID: 114701630866854336}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input1
+        node: {fileID: 114276783620982086}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input0
+      _node: {fileID: 114701630866854336}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input1
+      _node: {fileID: 114701630866854336}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input2
+      _node: {fileID: 114701630866854336}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+  previewChanged: 0
+  preview: {fileID: 0}
+  autoUpdatePreview: 1
+  opType: 14
+  parameters:
+  - 0.5
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  opType_old: 14
+--- !u!114 &114957783391646562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863727c69a2b8a54c9866b9b1e89e115, type: 3}
+  m_Name: Operator Node
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 104, y: -8}
+  ports:
+    keys:
+    - output
+    - input0
+    - input1
+    - input2
+    values:
+    - _fieldName: output
+      _node: {fileID: 114957783391646562}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input1
+        node: {fileID: 114116006407317198}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input0
+      _node: {fileID: 114957783391646562}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114276783620982086}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input1
+      _node: {fileID: 114957783391646562}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input2
+      _node: {fileID: 114957783391646562}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+  previewChanged: 0
+  preview: {fileID: 0}
+  autoUpdatePreview: 1
+  opType: 9
+  parameters:
+  - 1
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  opType_old: 9

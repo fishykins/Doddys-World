@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82eb997f5678e6c4f8158fc5a6dd3bbe, type: 3}
+  m_Name: bland
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 114373602114073032}
+  - {fileID: 114293954235102280}
+--- !u!114 &114293954235102280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863727c69a2b8a54c9866b9b1e89e115, type: 3}
+  m_Name: Operator Node
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -370, y: -159}
+  ports:
+    keys:
+    - output
+    - input0
+    - input1
+    - input2
+    values:
+    - _fieldName: output
+      _node: {fileID: 114293954235102280}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 114373602114073032}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input0
+      _node: {fileID: 114293954235102280}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input1
+      _node: {fileID: 114293954235102280}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+    - _fieldName: input2
+      _node: {fileID: 114293954235102280}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+  previewChanged: 0
+  preview: {fileID: 0}
+  autoUpdatePreview: 1
+  opType: 14
+  parameters:
+  - 0.5
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  opType_old: 14
+--- !u!114 &114373602114073032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87493bffa97092841bbec833e6955429, type: 3}
+  m_Name: Saving Node
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 24, y: -232}
+  ports:
+    keys:
+    - input
+    values:
+    - _fieldName: input
+      _node: {fileID: 114373602114073032}
+      _typeQualifiedName: ModuleWrapper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114293954235102280}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 0
+  filename: vanilla

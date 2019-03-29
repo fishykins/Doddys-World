@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 397a234b5de506942b98f17de5ee4641, type: 3}
+  m_Name: Default
+  m_EditorClassIdentifier: 
+  worldName: newWorld
+  radius: 6000
+  rotation:
+    x: 0
+    y: 0
+    z: 0
+    w: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  detailDistances:
+  - 6000
+  - 3000
+  - 1000
+  - 600
+  - 400
+  - 200
+  calculateMsds: 0
+  detailMsds:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  lodModeBehindCam: 1
+  behindCameraExtraRange: 0
+  planetMaterial: {fileID: 2100000, guid: add7155988b062d4eb713de51991f949, type: 2}
+  uvType: 1
+  uvScale: 1
+  generateColliders: 00000000000001
+  visSphereRadiusMod: 1
+  updateAllQuads: 0
+  maxQuadsToUpdate: 400
+  rotationUpdateThreshold: 1
+  recomputeQuadDistancesThreshold: 10
+  quadsSplittingSimultaneously: 4
+  useScaledSpace: 0
+  createScaledSpaceCopy: 0
+  scaledSpaceDistance: 1500
+  scaledSpaceFactor: 100000
+  scaledSpaceMaterial: {fileID: 0}
+  scaledSpaceCopy: {fileID: 0}
+  useBiomeMap: 0
+  biomeMapTexture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+  textureHeights:
+  - 0
+  - 0.01
+  - 0.02
+  - 0.75
+  - 1
+  textureIds: 000102030405
+  useSlopeTexture: 0
+  slopeAngle: 60
+  slopeTexture: 5
+  mode: 1
+  heightScale: 0.04
+  heightmapSizeX: 8192
+  heightmapSizeY: 4096
+  heightmap16bit: 0
+  heightmapTextAsset: {fileID: 4900000, guid: 580af00c41d375348b5c58dc3e43718d, type: 3}
+  useBicubicInterpolation: 1
+  computeShader: {fileID: 7200000, guid: 6ef382e7f99db25408cce79923528b53, type: 3}
+  noiseSerialized: {fileID: 4900000, guid: 053eea000bcf4764088de8c2d5cc3bc4, type: 3}
+  hybridModeNoiseDiv: 50
+  constantHeight: 0
+  generateDetails: 1
+  generateGrass: 1
+  planetIsRotating: 0
+  grassMaterial: {fileID: 2100000, guid: 9422e1dfe78e33e4f83e833a7461a642, type: 2}
+  grassPerQuad: 60000
+  grassLevel: 5
+  detailDistance: 1000
+  detailMeshes: []
+  detailPrefabs: []
+  generateFoliageInEveryBiome: 0
+  foliageBiomes: 02
+  detailObjectsGeneratingSimultaneously: 3
+  floatingOrigin: {fileID: 0}
+  hideQuads: 1
+  numQuads: 0
