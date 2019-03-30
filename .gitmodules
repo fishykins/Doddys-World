@@ -1,0 +1,3 @@
+[submodule "Assets/Python"]
+	path = Assets/Python
+	url = https://github.com/fishykins/unity-python.git
