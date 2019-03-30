@@ -2,14 +2,14 @@
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using Fishy.Serialization;
+using Unifish.Serialization;
 
 namespace DW.Building.DepreciatedShipSuite
 {
     public class BinarySaver : MonoBehaviour
     {
         public string folderName = "BinaryData";
-        public string testname = "fishy";
+        public string testname = "Unifish";
         public float size = 1.5f;
         public int verts = 4;
         public Vector3 position = Vector3.zero;

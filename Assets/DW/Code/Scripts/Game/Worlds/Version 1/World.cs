@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishy.DataTypes;
-using Fishy.Noise;
+using Unifish.DataTypes;
+using Unifish.Noise;
 
 namespace DW.Worlds.V1 {
     public class World : MonoBehaviour {

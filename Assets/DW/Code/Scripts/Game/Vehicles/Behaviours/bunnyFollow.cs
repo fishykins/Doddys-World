@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishy {
+namespace Unifish {
 	public class bunnyFollow : MonoBehaviour {
 		#region Variables
 		//Public & Serialized

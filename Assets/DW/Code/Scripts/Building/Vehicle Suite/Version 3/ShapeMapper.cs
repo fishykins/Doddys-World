@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishy {
+namespace Unifish {
 	public class ShapeMapper : MonoBehaviour {
 		#region Variables
 		//Public & Serialized

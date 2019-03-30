@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishy.Meshes;
-using Fishy.DataTypes;
-using Fishy.Grids;
+using Unifish.Meshes;
+using Unifish.DataTypes;
+using Unifish.Grids;
 
 namespace DW.Building.VehicleSuite3
 {
@@ -35,7 +35,7 @@ namespace DW.Building.VehicleSuite3
             Vector3 bottomBackleft = worldPosition + new Vector3(-px, -py, -pz);
             Vector3 bottomBackRight = worldPosition + new Vector3(px, -py, -pz);
 
-            bool[] quads = Fishy.ByteConverter.ByteToBoolArray(edgeID, 6);
+            bool[] quads = Unifish.ByteConverter.ByteToBoolArray(edgeID, 6);
             if (quads[0]) BuildQuad(builder, topFrontRight, topBackRight, topBackLeft, topFrontLeft); //Top
             if (quads[1]) BuildQuad(builder, bottomBackleft, bottomBackRight, bottomFrontRight, bottomFrontLeft); //Bottom
             if (quads[2]) BuildQuad(builder, bottomBackleft, bottomFrontLeft, topFrontLeft, topBackLeft); //Left

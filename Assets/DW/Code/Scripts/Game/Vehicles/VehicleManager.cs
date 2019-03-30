@@ -35,7 +35,7 @@ namespace DW.Vehicles {
         {
             if (scene.gameObject) {
                 obj.transform.parent = scene.gameObject.transform;
-                Fishy.UnityScene.SetLayerRecursively(obj, scene.Layer);
+                Unifish.UnityScene.SetLayerRecursively(obj, scene.Layer);
             }
         }
         #endregion

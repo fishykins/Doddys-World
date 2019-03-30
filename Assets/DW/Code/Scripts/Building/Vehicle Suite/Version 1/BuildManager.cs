@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishy.GridsOld;
-using Fishy.DataTypes;
+using Unifish.GridsOld;
+using Unifish.DataTypes;
 
 namespace DW.Building.DepreciatedShipSuite
 {

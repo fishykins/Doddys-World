@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
-using Fishy.DataTypes;
-using Fishy.Meshes;
-using Fishy.Noise;
+using Unifish.DataTypes;
+using Unifish.Meshes;
+using Unifish.Noise;
 
 
 namespace DW.Worlds.V1 {

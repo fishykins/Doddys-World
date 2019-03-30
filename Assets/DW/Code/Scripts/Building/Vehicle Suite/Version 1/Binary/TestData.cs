@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishy.Serialization;
+using Unifish.Serialization;
 
 namespace DW.Building.DepreciatedShipSuite {
     [Serializable]

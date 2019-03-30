@@ -1,3 +1,6 @@
 [submodule "Assets/Python"]
 	path = Assets/Python
 	url = https://github.com/fishykins/unity-python.git
+[submodule "Assets/Unifish"]
+	path = Assets/Unifish
+	url = https://github.com/fishykins/Unifish.git
