@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac718b8ce852d1445b8fbe5c323134ac, type: 3}
-  m_Name: UMA_Diffuse_Normal_Metallic
+  m_Name: DW UMA Material
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 7ff674d7a0f350a46af976cdaca494db, type: 2}
   materialType: 1
   channels:
-  - channelType: 4
+  - channelType: 2
     textureFormat: 0
     materialPropertyName: _BaseColorMap
     sourceTextureName: 
