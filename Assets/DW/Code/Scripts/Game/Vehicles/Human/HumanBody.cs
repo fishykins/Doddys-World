@@ -9,20 +9,7 @@ namespace DW.Vehicles
     {
         #region Variables
         //Public & Serialized
-        public float balance = 60f; //How quickly we can right ourselves, once we are able to do so
-        public float groundedRange = 2.5f; //How far we raycast to detect grounded
-        public float stunRecoverySpeed = 1f; //how quickly we can recover from being stunned
-        public float maxImpactForce = 2000f; //The largest impact we can experience without getting knocked down
-        public float braceMaxTime = 0.2f;
-        public float braceMaxAbsorb = 1000f;
-        public float maxFlex = 0.4f;
-
-        public float jumpPower = 1000f;
-        public float movementSpeed = 5f;
-
         public Animator animator;
-
-        public ConfigurableJoint[] joints;
 
         //Private
         private bool grounded = false;

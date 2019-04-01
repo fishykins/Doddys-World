@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using DW.Physics;
 
 namespace DW.Vehicles {
+    //TODO: This script is redundant and needs to be updated!!!
     //This script controls a vehicle as a generic holder of all things data related. It handles input and network primarily
 	public class VehicleController : MonoBehaviour {
         #region Variables

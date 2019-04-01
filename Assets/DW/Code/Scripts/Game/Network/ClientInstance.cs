@@ -74,7 +74,7 @@ namespace DW.Network {
         public void NetworkTick()
         {
             if (client.ServerConnection != null) {
-                //HandleNetworkObjects();
+                HandleNetworkObjects();
             }
         }
 
@@ -100,15 +100,12 @@ namespace DW.Network {
         private void HandleNetworkObjects()
         {
             //Send all our objects to the server!
-            foreach (VehicleController vehicle in scene.Vehicles) 
+            foreach (IVehicleController controller in scene.Vehicles) 
             {
-                if (vehicle.Host == client.UniqueIdentifier) {
-
+                //If we own this object, send out an update
+                if (controller.Host == client.UniqueIdentifier) {
                     NetOutgoingMessage message = client.ServerConnection.Peer.CreateMessage(9);
-                    message.Write((int)UniversalPacketType.vehicleUpdate);
-
-                    manager.DumpVehicleToMessage(vehicle, message);
-
+                    manager.DumpControllerToMessage(controller, ref message);
                     client.ServerConnection.SendMessage(message, NetDeliveryMethod.ReliableOrdered, 1);
                 }
             }

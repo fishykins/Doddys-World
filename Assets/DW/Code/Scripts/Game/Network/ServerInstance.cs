@@ -89,12 +89,10 @@ namespace DW.Network {
         private void HandleNetworkObjects()
         {
             //Send all our objects to the server!
-            foreach (VehicleController vehicle in scene.Vehicles) {
+            foreach (IVehicleController controller in scene.Vehicles) {
 
                 NetOutgoingMessage message = server.CreateMessage(8);
-                message.Write((int)UniversalPacketType.vehicleUpdate);
-                manager.DumpVehicleToMessage(vehicle, message);
-
+                manager.DumpControllerToMessage(controller, ref message);
                 server.SendToAll(message, NetDeliveryMethod.ReliableOrdered, 1);
             }
         }

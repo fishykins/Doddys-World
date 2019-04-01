@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DW.Physics;
+using Lidgren.Network;
 
 namespace DW.Vehicles
 {
@@ -22,6 +23,7 @@ namespace DW.Vehicles
         private string uniqueIdentifier = "";
         private SceneInstance scene;
         private bool isLocal = false;
+        private IPhysicsBody body; //The main (and only) body we care about
         #endregion
 
         #region Properties
@@ -39,7 +41,10 @@ namespace DW.Vehicles
         #endregion
 
         #region Unity Methods
-
+        private void Awake()
+        {
+            rb = GetComponent<Rigidbody>();
+        }
         #endregion
 
         #region Custom Methods
@@ -87,9 +92,44 @@ namespace DW.Vehicles
 
         public void AddPhysicsBody(IPhysicsBody body)
         {
+            //If we dont have a rigidbody, we should use this one
+            if (!rb)
+            {
+                rb = body.Transform.GetComponent<Rigidbody>();
+            }
+
             physicsBodies.Add(body);
             body.Initialize(this);
+
+            if (this.body == null) this.body = body;
             SetHost(host); //Will update body
+        }
+
+        public void PackNetworkMessage(ref NetOutgoingMessage message)
+        {
+            Vector3 rotation = transform.rotation.eulerAngles;
+
+            message.Write(transform.position.x);
+            message.Write(transform.position.y);
+            message.Write(transform.position.z);
+            message.Write(rotation.x);
+            message.Write(rotation.y);
+            message.Write(rotation.z);
+        }
+
+        public void UnpackNetworkMessage(NetIncomingMessage message)
+        {
+            if (!rb) return;
+
+            float x = message.ReadFloat();
+            float y = message.ReadFloat();
+            float z = message.ReadFloat();
+            float xRot = message.ReadFloat();
+            float yRot = message.ReadFloat();
+            float zRot = message.ReadFloat();
+
+            rb.MovePosition(new Vector3(x, y, z));
+            rb.MoveRotation(Quaternion.Euler(new Vector3(xRot, yRot, zRot)));
         }
         #endregion
     }

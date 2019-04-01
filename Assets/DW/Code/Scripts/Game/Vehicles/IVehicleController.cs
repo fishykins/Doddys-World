@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DW.Physics;
+using Lidgren.Network;
 
 namespace DW.Vehicles
 {
@@ -23,5 +24,8 @@ namespace DW.Vehicles
         void SetInput(IInput input);
         void SetHost(long newHost);
         void AddPhysicsBody(IPhysicsBody body);
+
+        void PackNetworkMessage(ref NetOutgoingMessage message);
+        void UnpackNetworkMessage(NetIncomingMessage message);
     }
 }

@@ -21,7 +21,7 @@ namespace DW.Vehicles
         private ManagerStatus status = ManagerStatus.initializing;
         private int vehicleIndex = 0;
 
-        private Dictionary<string, IVehicleController> VehicleDictionary = new Dictionary<string, IVehicleController>();
+        private Dictionary<string, IVehicleController> vehicleDictionary = new Dictionary<string, IVehicleController>();
         #endregion;
 
         #region Properties
@@ -35,10 +35,6 @@ namespace DW.Vehicles
         #region Private Methods
         private void InitVehicle(GameObject vehicle, string prefabName, bool initNetwork = true)
         {
-            string text = "Initializing " + prefabName;
-            if (initNetwork) text += " (Hosting)";
-            scene.Log(text);
-
             vehicle.transform.name = prefabName;
             ParentToScene(vehicle);
 
@@ -65,7 +61,7 @@ namespace DW.Vehicles
             }
 
             scene.Vehicles.Add(controller);
-            VehicleDictionary.Add(uniqueIdentifier, controller);
+            vehicleDictionary.Add(uniqueIdentifier, controller);
         }
         private void ParentToScene(GameObject obj)
         {
@@ -101,25 +97,9 @@ namespace DW.Vehicles
             return obj;
         }
 
-        public bool UpdateVehicleFromNetwork(string nuid, Vector3 position, Vector3 rotation)
+        public bool TryGetVehicle(string uniqueIdentifier, out IVehicleController networkVehicle)
         {
-            IVehicleController networkVehicle;
-            if (!VehicleDictionary.TryGetValue(nuid, out networkVehicle))
-            {
-                //Spawn vehicle
-                scene.Log("Requesting " + nuid + " from its localHost");
-                return false;
-            }
-            else
-            {
-                //networkVehicle.UpdateFromNetwork(position, rotation); //TODO: Make a generic function for all controllers
-                return true;
-            }
-        }
-
-        public bool TryGetNetworkVehicle(string uniqueIdentifier, out IVehicleController networkVehicle)
-        {
-            return VehicleDictionary.TryGetValue(uniqueIdentifier, out networkVehicle);
+            return vehicleDictionary.TryGetValue(uniqueIdentifier, out networkVehicle);
         }
 
         /// <summary>
@@ -135,16 +115,16 @@ namespace DW.Vehicles
             GameObject prefab;
 
             if (!TryGetPrefab(prefabName, out prefab)) return null;
-            if (VehicleDictionary.ContainsKey(origin + "_" + vehicleIndex)) return null;
+            if (vehicleDictionary.ContainsKey(origin + "_" + vehicleIndex)) return null;
 
             GameObject vehicle = Instantiate(prefab);
 
             //Set NetowrkVehicle data before we init, so we can overwrite default values
-            VehicleController netData = vehicle.GetComponent<VehicleController>();
-            if (!netData) netData = vehicle.AddComponent<VehicleController>();
+            IVehicleController controller = vehicle.GetComponent<IVehicleController>();
+            if (controller == null) controller = (IVehicleController)vehicle.AddComponent<VehicleController>();
 
-            netData.Initialize(scene, origin, prefabName, vehicleIndex); vehicleIndex++;
-            netData.SetHost(host);
+            controller.Initialize(scene, origin, prefabName, vehicleIndex); vehicleIndex++;
+            controller.SetHost(host);
 
             InitVehicle(vehicle, prefabName, false);
 

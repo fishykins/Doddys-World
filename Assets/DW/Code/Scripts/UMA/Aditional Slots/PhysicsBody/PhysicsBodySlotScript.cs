@@ -17,12 +17,11 @@ namespace UMA
                 body.applyGravity = true;
             }
 
-            IVehicleController controller = umaData.transform.parent.GetComponent<IVehicleController>();
+            IVehicleController controller = umaData.gameObject.GetComponent<IVehicleController>();
             if (controller != null)
             {
                 controller.AddPhysicsBody(body);
             }
-
         }
     }
 }

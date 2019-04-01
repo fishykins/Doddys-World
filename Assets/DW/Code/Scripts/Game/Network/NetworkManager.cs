@@ -5,11 +5,13 @@ using Lidgren.Network;
 using DW.Vehicles;
 using IngameDebugConsole;
 
-namespace DW.Network {
+namespace DW.Network
+{
     /// <summary>
     /// The Network manager is in-charge of allocating jobs to server/client and executing update methods.
     /// </summary>
-	public class NetworkManager : MonoBehaviour {
+	public class NetworkManager : MonoBehaviour
+    {
         #region Variables
         //Public
         public int debugLevel = 1;
@@ -31,17 +33,20 @@ namespace DW.Network {
         private void Start()
         {
             tickRate = 1f / GameMaster.instance.TickRate;
-            
+
         }
 
-        void Update () {
-            if (network != null) {
+        void Update()
+        {
+            if (network != null)
+            {
                 network.NetworkUpdate();
             }
         }
         private void OnDestroy()
         {
-            if (network != null) {
+            if (network != null)
+            {
                 network.Shutdown();
             }
         }
@@ -50,7 +55,8 @@ namespace DW.Network {
         #region Custom Methods
         private IEnumerator PerformTick()
         {
-            while (network != null) {
+            while (network != null)
+            {
                 network.NetworkTick();
                 yield return new WaitForSeconds(tickRate);
             }
@@ -62,7 +68,8 @@ namespace DW.Network {
         {
             this.scene = scene;
 
-            switch (scene.Role) {
+            switch (scene.Role)
+            {
                 case ApplicationRole.host:
                     network = new ServerInstance(scene, this, port);
                     break;
@@ -78,18 +85,12 @@ namespace DW.Network {
             StartCoroutine(PerformTick());
         }
 
-        public void DumpVehicleToMessage(VehicleController vehicle, NetOutgoingMessage message)
+        public void DumpControllerToMessage(IVehicleController controller, ref NetOutgoingMessage message)
         {
-            Vector3 rotation = vehicle.transform.rotation.eulerAngles;
-
-            message.Write(vehicle.UniqueIdentifier);
-            message.Write(vehicle.Host);
-            message.Write(vehicle.transform.position.x);
-            message.Write(vehicle.transform.position.y);
-            message.Write(vehicle.transform.position.z);
-            message.Write(rotation.x);
-            message.Write(rotation.y);
-            message.Write(rotation.z);
+            message.Write((int)UniversalPacketType.vehicleUpdate);
+            message.Write(controller.Host);
+            message.Write(controller.UniqueIdentifier);
+            controller.PackNetworkMessage(ref message);
         }
         #endregion
     }

@@ -4,11 +4,13 @@ using UnityEngine;
 using Lidgren.Network;
 using DW.Vehicles;
 
-namespace DW.Network {
+namespace DW.Network
+{
     /// <summary>
     /// Deals with incoming packets.
     /// </summary>
-	public class PacketHandler {
+	public class PacketHandler
+    {
         #region Variables
         //Public & Serialized
 
@@ -44,10 +46,12 @@ namespace DW.Network {
         {
             int messageType = message.ReadInt32();
             Packet_ packet;
-            if (packetDictionary.TryGetValue(messageType, out packet)) {
+            if (packetDictionary.TryGetValue(messageType, out packet))
+            {
                 packet.Invoke(message);
             }
-            else {
+            else
+            {
                 scene.LogError("Message type '" + messageType + "' not found- make sure it has a method and is included in the init method", 10);
             }
         }
@@ -85,7 +89,8 @@ namespace DW.Network {
             scene.Log(nuid + " was requested");
 
             IVehicleController networkVehicle;
-            if (scene.VehicleManager.TryGetNetworkVehicle(nuid, out networkVehicle)) {
+            if (scene.VehicleManager.TryGetVehicle(nuid, out networkVehicle))
+            {
                 //prep message
                 NetOutgoingMessage MessageOut;
                 MessageOut = message.SenderConnection.Peer.CreateMessage(5);
@@ -94,7 +99,7 @@ namespace DW.Network {
                 MessageOut.Write(networkVehicle.Host);
                 MessageOut.Write(networkVehicle.Index);
                 MessageOut.Write(networkVehicle.Prefab);
-                
+
                 message.SenderConnection.SendMessage(MessageOut, NetDeliveryMethod.ReliableOrdered, 1);
             }
         }
@@ -119,31 +124,33 @@ namespace DW.Network {
         /// <param name="message"></param>
         private void P_VehicleUpdate(NetIncomingMessage message)
         {
-            string uniqueIdentifier = message.ReadString();
             long host = message.ReadInt64();
 
             //If we own this vehicle, ignore this message
             if (host == scene.NetworkIdentifier) return;
 
-            float x = message.ReadFloat();
-            float y = message.ReadFloat();
-            float z = message.ReadFloat();
-            float xRot = message.ReadFloat();
-            float yRot = message.ReadFloat();
-            float zRot = message.ReadFloat();
+            string uniqueIdentifier = message.ReadString();
 
-            bool updated = scene.VehicleManager.UpdateVehicleFromNetwork(uniqueIdentifier, new Vector3(x, y, z), new Vector3(xRot, yRot, zRot));
+            IVehicleController networkVehicle;
+            if (scene.VehicleManager.TryGetVehicle(uniqueIdentifier, out networkVehicle))
+            {
+                //update vehicle
+                networkVehicle.UnpackNetworkMessage(message);
+            }
+            else
+            {
+                if (!requestedVehicles.Contains(uniqueIdentifier))
+                {
+                    //Request vehicle
+                    NetOutgoingMessage messageReturn;
+                    messageReturn = message.SenderConnection.Peer.CreateMessage(2);
+                    messageReturn.Write((int)UniversalPacketType.RequestVehicle);
+                    messageReturn.Write(uniqueIdentifier);
 
-            if (!updated && !requestedVehicles.Contains(uniqueIdentifier)) {
-                //We dont know what this is- request the vehicles DNA!
-                NetOutgoingMessage messageReturn;
-                messageReturn = message.SenderConnection.Peer.CreateMessage(2);
-                messageReturn.Write((int)UniversalPacketType.RequestVehicle);
-                messageReturn.Write(uniqueIdentifier);
+                    message.SenderConnection.SendMessage(messageReturn, NetDeliveryMethod.ReliableOrdered, 1);
 
-                message.SenderConnection.SendMessage(messageReturn, NetDeliveryMethod.ReliableOrdered, 1);
-
-                requestedVehicles.Add(uniqueIdentifier);
+                    requestedVehicles.Add(uniqueIdentifier);
+                }
             }
         }
         #endregion

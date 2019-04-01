@@ -17,9 +17,6 @@ namespace UMA
 			}
 			rigid.constraints = RigidbodyConstraints.FreezeRotation;
 			rigid.mass = umaData.characterMass;
-			 //FIXME: Get rid off this as we shouldnt edit this code!
-			rigid.useGravity = false;
-			rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
 			CapsuleCollider capsule = umaData.gameObject.GetComponent<CapsuleCollider>();
 			BoxCollider box = umaData.gameObject.GetComponent<BoxCollider>();
