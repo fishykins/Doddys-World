@@ -74,7 +74,7 @@ namespace DW.Network {
         public void NetworkTick()
         {
             if (client.ServerConnection != null) {
-                HandleNetworkObjects();
+                //HandleNetworkObjects();
             }
         }
 

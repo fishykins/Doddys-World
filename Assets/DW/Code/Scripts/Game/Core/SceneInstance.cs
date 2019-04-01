@@ -36,8 +36,7 @@ namespace DW {
         private SceneStatus status;
 
         private List<IGravityBody> gravityBodies = new List<IGravityBody>();
-        private List<IPhysicsBody> physicsBodies = new List<IPhysicsBody>();
-        private List<VehicleController> vehicles = new List<VehicleController>();
+        private List<IVehicleController> vehicles = new List<IVehicleController>();
         #endregion;
 
         #region Properties
@@ -52,8 +51,7 @@ namespace DW {
 
         public List<Planet> Worlds { get { return worldManager.Worlds; } }
         public List<IGravityBody> GravityBodies { get { return gravityBodies; } }
-        public List<IPhysicsBody> PhysicsBodies { get { return physicsBodies; } }
-        public List<VehicleController> Vehicles { get { return vehicles; } }
+        public List<IVehicleController> Vehicles { get { return vehicles; } }
 
         public NetworkManager NetworkManager { get { return networkManager; } }
         public VehicleManager VehicleManager { get { return vehicleManager; } }

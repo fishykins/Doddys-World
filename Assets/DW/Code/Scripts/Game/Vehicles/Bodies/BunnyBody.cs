@@ -46,7 +46,7 @@ namespace DW.Vehicles
         {
             base.Update();
             if (Controller != null) {
-                HandleBasicInput();
+                HandleBasicInput(Controller.Input);
             }
 
         }
@@ -105,7 +105,7 @@ namespace DW.Vehicles
                 }
 
                 if (Controller != null) {
-                    handleMovementInput(down, hit);
+                    handleMovementInput(Controller.Input, down, hit);
                 }
             }
             else {
@@ -114,7 +114,7 @@ namespace DW.Vehicles
             }
         }
 
-        private void HandleBasicInput()
+        private void HandleBasicInput(IInput input)
         {
             if (Input.GetKeyDown(KeyCode.LeftControl)) {
                 braceTime = Time.time;
@@ -127,7 +127,7 @@ namespace DW.Vehicles
 
             if (animator) {
                 if (grounded && Controller != null) {
-                    animator.SetFloat("Speed", Controller.ZAxis);
+                    animator.SetFloat("Speed", input.ZAxis);
                 }
                 else {
                     animator.SetFloat("Speed", 0);
@@ -149,21 +149,21 @@ namespace DW.Vehicles
         /// </summary>
         /// <param name="down"></param>
         /// <param name="hit"></param>
-        private void handleMovementInput(Vector3 down, RaycastHit hit)
+        private void handleMovementInput(IInput input, Vector3 down, RaycastHit hit)
         {
-            transform.rotation *= Quaternion.AngleAxis(Controller.YRot, Vector3.up); //Does not work...
+            transform.rotation *= Quaternion.AngleAxis(input.YRot, Vector3.up); //Does not work...
             //transform.Rotate(down, DWInput.YRot);
 
             Vector3 targetDirection = Vector3.zero;
 
             if (grounded) {
-                if (Controller.ZAxis != 0) {
+                if (input.ZAxis != 0) {
                     //targetDirection += transform.forward * Input.GetAxis("Vertical");
-                    targetDirection += Vector3.Cross(transform.right, hit.normal) * Controller.ZAxis;
+                    targetDirection += Vector3.Cross(transform.right, hit.normal) * input.ZAxis;
                 }
-                if (Controller.XAxis != 0) {
+                if (input.XAxis != 0) {
                     //targetDirection += transform.right * Input.GetAxis("Horizontal");
-                    targetDirection += Vector3.Cross(transform.forward, hit.normal) * -Controller.XAxis;
+                    targetDirection += Vector3.Cross(transform.forward, hit.normal) * -input.XAxis;
                 }
             }
 
@@ -183,7 +183,7 @@ namespace DW.Vehicles
                 debug = rb.velocity;
             }
 
-            if (Controller.YAxis > 0 && grounded && !jumping) {
+            if (input.YAxis > 0 && grounded && !jumping) {
                 jumping = true;
                 braceTime = 0f;
                 rb.AddForce(-down * jumpPower, ForceMode.Impulse);

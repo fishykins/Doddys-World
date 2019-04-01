@@ -5,8 +5,10 @@ using PlanetaryTerrain;
 using DW.Physics;
 using DW.Network;
 
-namespace DW.Vehicles {
-	public class VehicleManager : MonoBehaviour {
+namespace DW.Vehicles
+{
+    public class VehicleManager : MonoBehaviour
+    {
         #region Variables
         //Public & Serialized
         //[SerializeField, Range(-100, 100)]
@@ -19,7 +21,7 @@ namespace DW.Vehicles {
         private ManagerStatus status = ManagerStatus.initializing;
         private int vehicleIndex = 0;
 
-        private Dictionary<string, VehicleController> VehicleDictionary = new Dictionary<string, VehicleController>();
+        private Dictionary<string, IVehicleController> VehicleDictionary = new Dictionary<string, IVehicleController>();
         #endregion;
 
         #region Properties
@@ -31,9 +33,44 @@ namespace DW.Vehicles {
         #endregion;
 
         #region Private Methods
+        private void InitVehicle(GameObject vehicle, string prefabName, bool initNetwork = true)
+        {
+            string text = "Initializing " + prefabName;
+            if (initNetwork) text += " (Hosting)";
+            scene.Log(text);
+
+            vehicle.transform.name = prefabName;
+            ParentToScene(vehicle);
+
+            IVehicleController controller = vehicle.GetComponent<IVehicleController>();
+
+            string uniqueIdentifier;
+
+            //Default initialize and host object. 
+            if (initNetwork || controller == null)
+            {
+                if (controller == null)
+                {
+                    //Vehicles need netData to function- add it!
+                    controller = (IVehicleController)vehicle.AddComponent<VehicleController>();
+                }
+
+                uniqueIdentifier = controller.Initialize(scene, scene.NetworkIdentifier, prefabName, vehicleIndex); vehicleIndex++;
+                controller.SetHost(scene.NetworkIdentifier);
+            }
+            else
+            {
+                //We have bypassed netinit, so simply get data as we assume its already been done
+                uniqueIdentifier = controller.UniqueIdentifier;
+            }
+
+            scene.Vehicles.Add(controller);
+            VehicleDictionary.Add(uniqueIdentifier, controller);
+        }
         private void ParentToScene(GameObject obj)
         {
-            if (scene.gameObject) {
+            if (scene.gameObject)
+            {
                 obj.transform.parent = scene.gameObject.transform;
                 Unifish.UnityScene.SetLayerRecursively(obj, scene.Layer);
             }
@@ -46,9 +83,12 @@ namespace DW.Vehicles {
             this.scene = scene;
             library = VehicleLibrary.instance;
             networkManager = GetComponent<NetworkManager>();
-            if (networkManager) {
+            if (networkManager)
+            {
                 status = ManagerStatus.ready;
-            } else {
+            }
+            else
+            {
                 status = ManagerStatus.error;
             }
         }
@@ -63,61 +103,23 @@ namespace DW.Vehicles {
 
         public bool UpdateVehicleFromNetwork(string nuid, Vector3 position, Vector3 rotation)
         {
-            VehicleController networkVehicle;
-            if (!VehicleDictionary.TryGetValue(nuid, out networkVehicle)) {
+            IVehicleController networkVehicle;
+            if (!VehicleDictionary.TryGetValue(nuid, out networkVehicle))
+            {
                 //Spawn vehicle
                 scene.Log("Requesting " + nuid + " from its localHost");
                 return false;
-
-            } else {
-                networkVehicle.UpdateFromNetwork(position, rotation);
+            }
+            else
+            {
+                //networkVehicle.UpdateFromNetwork(position, rotation); //TODO: Make a generic function for all controllers
                 return true;
             }
         }
 
-        public bool TryGetNetworkVehicle(string uniqueIdentifier, out VehicleController networkVehicle)
+        public bool TryGetNetworkVehicle(string uniqueIdentifier, out IVehicleController networkVehicle)
         {
             return VehicleDictionary.TryGetValue(uniqueIdentifier, out networkVehicle);
-        }
-
-        private void InitVehicle(GameObject vehicle, string prefabName, bool initNetwork = true)
-        {
-            string text = "Initializing " + prefabName;
-            if (initNetwork) text += " (Hosting)";
-            scene.Log(text);
-
-            vehicle.transform.name = prefabName;
-            ParentToScene(vehicle);
-
-            VehicleController netData = vehicle.GetComponent<VehicleController>();
-            
-            string uniqueIdentifier;
-
-            //Default initialize and host object. 
-            if (initNetwork || !netData) {
-                if (!netData) {
-                    //Vehicles need netData to function- add it!
-                    netData = vehicle.AddComponent<VehicleController>();
-                }
-
-                uniqueIdentifier = netData.Initialize(scene, scene.NetworkIdentifier, prefabName, vehicleIndex); vehicleIndex++;
-                netData.SetHost(scene.NetworkIdentifier);
-            } else {
-                //We have bypassed netinit, so simply get data as we assume its already been done
-                uniqueIdentifier = netData.UniqueIdentifier;
-            }
-
-            IPhysicsBody[] bodies = netData.physicsBodies;
-
-            scene.Vehicles.Add(netData);
-            VehicleDictionary.Add(uniqueIdentifier, netData);
-
-            if (bodies != null) {
-                foreach (var body in bodies) {
-                    body.Initialize(scene);
-                    scene.PhysicsBodies.Add(body);
-                }
-            }
         }
 
         /// <summary>
@@ -179,12 +181,14 @@ namespace DW.Vehicles {
         {
             prefab = library.GetPrefab(prefabName);
 
-            if (scene == null) {
+            if (scene == null)
+            {
                 Debug.LogError("Cannot spawn vehicle- no scene set!");
                 return false;
             }
 
-            if (prefab == null) {
+            if (prefab == null)
+            {
                 scene.LogError("Cannot spawn vehicle " + prefabName + "- no prefab found!");
                 return false;
             }
@@ -192,5 +196,5 @@ namespace DW.Vehicles {
             return true;
         }
         #endregion
-	}
+    }
 }

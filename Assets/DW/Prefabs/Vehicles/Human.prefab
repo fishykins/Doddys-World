@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8504182909040965288
 Transform:
   m_ObjectHideFlags: 0
@@ -199,7 +199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4090646277460772613}
-  - component: {fileID: 2059052012671712144}
+  - component: {fileID: 3013567616565472054}
   m_Layer: 0
   m_Name: Human
   m_TagString: Untagged
@@ -223,7 +223,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2059052012671712144
+--- !u!114 &3013567616565472054
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,11 +232,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6849560852696463273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f89f24365b609da419fbd46cf3debb8e, type: 3}
+  m_Script: {fileID: 11500000, guid: 73be44853ce1d8348a56f70cc5eaa582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  broadcastOverNet: 1
-  cameraRoot: {fileID: 4090646277460772613}
 --- !u!1001 &5734058761200993949
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -293,6 +291,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11453600, guid: 5c80fc4442f8349969abea6c1a0f1faa, type: 3}
+      propertyPath: umaAdditionalRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11453600, guid: 5c80fc4442f8349969abea6c1a0f1faa, type: 3}
+      propertyPath: preloadWardrobeRecipes.recipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11453600, guid: 5c80fc4442f8349969abea6c1a0f1faa, type: 3}
       propertyPath: context
       value: 
       objectReference: {fileID: 0}
@@ -300,6 +306,16 @@ PrefabInstance:
       propertyPath: activeRace.name
       value: HumanMaleDCS
       objectReference: {fileID: 0}
+    - target: {fileID: 11453600, guid: 5c80fc4442f8349969abea6c1a0f1faa, type: 3}
+      propertyPath: umaAdditionalRecipes.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1f292487d7383514f97c491cadfb0442,
+        type: 2}
+    - target: {fileID: 11453600, guid: 5c80fc4442f8349969abea6c1a0f1faa, type: 3}
+      propertyPath: umaAdditionalRecipes.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 08aecae76544fe5458b8e901bdd76495,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c80fc4442f8349969abea6c1a0f1faa, type: 3}
 --- !u!4 &5734058761201219171 stripped

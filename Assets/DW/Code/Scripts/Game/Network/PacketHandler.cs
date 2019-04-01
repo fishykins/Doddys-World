@@ -84,7 +84,7 @@ namespace DW.Network {
             string nuid = message.ReadString();
             scene.Log(nuid + " was requested");
 
-            VehicleController networkVehicle;
+            IVehicleController networkVehicle;
             if (scene.VehicleManager.TryGetNetworkVehicle(nuid, out networkVehicle)) {
                 //prep message
                 NetOutgoingMessage MessageOut;

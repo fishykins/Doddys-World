@@ -14,13 +14,13 @@ namespace DW.Player {
         private SceneInstance scene;
         private ManagerStatus status;
 
-        private VehicleController controlBody;
+        private IVehicleController controlBody;
         private IInput input;
         #endregion;
 
         #region Properties
         public ManagerStatus Status { get { return status; } }
-        public VehicleController ControlBody { get { return controlBody; } }
+        public IVehicleController ControlBody { get { return controlBody; } }
         public IInput Input { get { return input; } }
         #endregion;
 
@@ -40,7 +40,7 @@ namespace DW.Player {
 
         public void SetControlTarget(GameObject target)
         {
-            VehicleController controller = target.GetComponent<VehicleController>(); 
+            IVehicleController controller = target.GetComponent<IVehicleController>(); 
 
             if (controller == null) {
                 scene.LogError("SetControlTarget was just passed an object that does not have a VehicleController");
@@ -55,15 +55,17 @@ namespace DW.Player {
 
             //Check if we need to untarget old target
             if (controlBody != null) {
-                controlBody.RemoveInput();
+                controlBody.SetInput(null);
             }
 
             controlBody = controller;
 
             controller.SetInput(input);
 
-            if (controller.cameraRoot) {
-                Camera.main.transform.SetParent(controller.cameraRoot);
+            scene.Log(target.gameObject.name + " has been set to player input");
+
+            if (controller.Transform) {
+                Camera.main.transform.SetParent(controller.Transform);
                 Camera.main.transform.localPosition = new Vector3(0f, 3f, -4f);
                 Camera.main.transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
             }

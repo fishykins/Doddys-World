@@ -6,7 +6,7 @@ namespace UMA
 	/// <summary>
 	/// Auxillary slot which adds a CapsuleCollider and Rigidbody to a newly created character.
 	/// </summary>
-	public class CapsuleColliderSlotScript : MonoBehaviour
+	public class CapsuleColliderDWSlotScript : MonoBehaviour
 	{
 		public void OnDnaApplied(UMAData umaData)
 		{
@@ -17,9 +17,7 @@ namespace UMA
 			}
 			rigid.constraints = RigidbodyConstraints.FreezeRotation;
 			rigid.mass = umaData.characterMass;
-			 //FIXME: Get rid off this as we shouldnt edit this code!
-			rigid.useGravity = false;
-			rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+			rigid.useGravity = false; //!This is spesific to Doddys world- we dont want gravity!!!
 
 			CapsuleCollider capsule = umaData.gameObject.GetComponent<CapsuleCollider>();
 			BoxCollider box = umaData.gameObject.GetComponent<BoxCollider>();

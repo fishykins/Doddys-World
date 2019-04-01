@@ -19,7 +19,7 @@ namespace DW.Vehicles {
         {
             string info = "Origin: " + vehicle.Origin + ", Host: " + vehicle.Host + ", Prefab: " + vehicle.Prefab + ", UID: " + vehicle.Index;
             if (vehicle.physicsBodies != null)
-                info += ", PhysicsBody count: " + vehicle.physicsBodies.Length;
+                info += ", PhysicsBody count: " + vehicle.physicsBodies.Count;
 
             EditorGUILayout.LabelField(info, EditorStyles.label);
 

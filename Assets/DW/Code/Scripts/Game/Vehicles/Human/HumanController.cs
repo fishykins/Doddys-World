@@ -1,31 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Net.Sockets;
 using DW.Physics;
 
-namespace DW.Vehicles {
-    //This script controls a vehicle as a generic holder of all things data related. It handles input and network primarily
-	public class VehicleController : MonoBehaviour {
+namespace DW.Vehicles
+{
+    public class HumanController : MonoBehaviour, IVehicleController
+    {
         #region Variables
-        //Public & Serialized
-        public bool broadcastOverNet = true;
-        public List<IPhysicsBody> physicsBodies = new List<IPhysicsBody>();
-        public IInput input;
-        public Transform cameraRoot;
+        //Public
 
         //Private
+        private bool broadcastOverNet = true;
+        private List<IPhysicsBody> physicsBodies = new List<IPhysicsBody>();
+        private IInput input;
         private Rigidbody rb;
         private long origin = -1;
         private long host = -1;
         private int index = -1;
         private string prefab = "";
         private string uniqueIdentifier = "";
-        
         private SceneInstance scene;
         private bool isLocal = false;
-
-        #endregion;
+        #endregion
 
         #region Properties
         public long Origin { get { return origin; } }
@@ -35,31 +32,17 @@ namespace DW.Vehicles {
         public int Index { get { return index; } }
         public bool IsLocal { get { return isLocal; } }
         public SceneInstance Scene { get { return scene; } }
-        #endregion;
+        public bool BroadcastOverNet { get { return broadcastOverNet; } set { broadcastOverNet = value; } }
+        public List<IPhysicsBody> PhysicsBodies { get { return physicsBodies; } }
+        public IInput Input { get { return input; } }
+        public Transform Transform { get { return transform; } }
+        #endregion
 
         #region Unity Methods
-        private void Awake()
-        {
-            rb = GetComponent<Rigidbody>();
-            BuildObject();
 
-            if (!cameraRoot)
-                cameraRoot = transform;
-        }
-        #endregion;
+        #endregion
 
         #region Custom Methods
-
-        public void AddPhysicsBody(IPhysicsBody body) {
-            physicsBodies.Add(body);
-            body.Controller = (IVehicleController)this;
-
-            if (body.Scene != scene)
-                body.Initialize(scene);
-
-            SetHost(host);
-        }
-
         public string Initialize(SceneInstance scene, long origin, string prefab, int index)
         {
             this.scene = scene;
@@ -73,20 +56,28 @@ namespace DW.Vehicles {
             return uniqueIdentifier;
         }
 
+        public void SetInput(IInput input)
+        {
+            input = this.input;
+        }
+
         public void SetHost(long newHost)
         {
             host = newHost;
             isLocal = (host == scene.NetworkIdentifier);
 
-            if (physicsBodies != null) {
+            if (physicsBodies != null)
+            {
                 //This vehicle has a body so we must determine its status
-                foreach (MonoBehaviour body in physicsBodies) {
+                foreach (MonoBehaviour body in physicsBodies)
+                {
                     body.enabled = isLocal;
                 }
-                
+
             }
 
-            if (rb) {
+            if (rb)
+            {
                 rb.collisionDetectionMode = (isLocal) ? CollisionDetectionMode.ContinuousDynamic : CollisionDetectionMode.Discrete;
                 //rb.interpolation = (isLocal) ? RigidbodyInterpolation.None : RigidbodyInterpolation.Interpolate;
                 rb.detectCollisions = isLocal;
@@ -94,30 +85,11 @@ namespace DW.Vehicles {
             }
         }
 
-        public void UpdateFromNetwork(Vector3 position, Vector3 rotation)
+        public void AddPhysicsBody(IPhysicsBody body)
         {
-            if (rb) {
-                rb.MovePosition(position);
-                rb.MoveRotation(Quaternion.Euler(rotation));
-            } else {
-                transform.position = position;
-                transform.rotation = Quaternion.Euler(rotation);
-            }
-        }
-
-        public void BuildObject()
-        {
-            physicsBodies.AddRange(gameObject.GetComponentsInChildren<IPhysicsBody>());
-        }
-
-        public void SetInput(IInput input)
-        {
-            this.input = input;
-        }
-
-        public void RemoveInput()
-        {
-            SetInput(null);
+            physicsBodies.Add(body);
+            body.Initialize(this);
+            SetHost(host); //Will update body
         }
         #endregion
     }
