@@ -4,9 +4,11 @@ using UnityEngine;
 using DW.Physics;
 using DW.Vehicles;
 
-namespace DW.Player {
+namespace DW.Player
+{
     [RequireComponent(typeof(PlayerController))]
-	public class PlayerManager : MonoBehaviour {
+    public class PlayerManager : MonoBehaviour
+    {
         #region Variables
         //Public & Serialized
 
@@ -14,18 +16,26 @@ namespace DW.Player {
         private SceneInstance scene;
         private ManagerStatus status;
 
-        private IVehicleController controlBody;
+        private IVehicleController vehicleController;
+        private ICameraController cameraController;
         private IInput input;
         #endregion;
 
         #region Properties
         public ManagerStatus Status { get { return status; } }
-        public IVehicleController ControlBody { get { return controlBody; } }
+        public IVehicleController ControlBody { get { return vehicleController; } }
         public IInput Input { get { return input; } }
         #endregion;
 
         #region Unity Methods
-
+        private void FixedUpdate()
+        {
+            
+        }
+        private void LateUpdate() {
+            if (cameraController != null)
+                cameraController.UpdateCamera();
+        }
         #endregion;
 
         #region Custom Methods
@@ -38,37 +48,49 @@ namespace DW.Player {
 
 
 
+        /// <summary>
+        /// Assignes player input to vehicle.
+        /// </summary>
+        /// <param name="target"></param>
         public void SetControlTarget(GameObject target)
         {
-            IVehicleController controller = target.GetComponent<IVehicleController>(); 
+            IVehicleController controller = target.GetComponent<IVehicleController>();
 
-            if (controller == null) {
+            if (controller == null)
+            {
                 scene.LogError("SetControlTarget was just passed an object that does not have a VehicleController");
                 return;
             }
 
-            if (controller.Scene != scene) {
+            if (controller.Scene != scene)
+            {
                 scene.LogError("SetControlTarget was just passed an object from '" + controller.Scene.name + "'- this shouldn't happen!");
                 return;
             }
 
 
             //Check if we need to untarget old target
-            if (controlBody != null) {
-                controlBody.SetInput(null);
+            if (vehicleController != null)
+            {
+                vehicleController.SetInput(null);
             }
 
-            controlBody = controller;
+            //Set and apply new controller
+            vehicleController = controller;
+            vehicleController.SetInput(input);
 
-            controller.SetInput(input);
-
-            scene.Log(target.gameObject.name + " has been set to player input");
-
-            if (controller.Transform) {
-                Camera.main.transform.SetParent(controller.Transform);
-                Camera.main.transform.localPosition = new Vector3(0f, 3f, -4f);
-                Camera.main.transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
+            if (vehicleController.CameraController != null)
+            {
+                cameraController = vehicleController.CameraController;
+                cameraController.AssignCamera(Camera.main.transform);
             }
+            else
+            {
+                cameraController = null;
+                scene.LogWarning(vehicleController.Prefab + " does not have a camera controller- camera will not uptdate!");
+            }
+
+            scene.Log("Control target set to " + vehicleController.UniqueIdentifier);
         }
         #endregion
     }

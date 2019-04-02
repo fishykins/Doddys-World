@@ -43,20 +43,23 @@ namespace DW.Vehicles
 
         protected virtual void Update()
         {
-            if (rb && scene)
-            {
+            if (scene)
                 nearestWorld = scene.GetNearestWorld(transform.position);
+        }
 
-                if (nearestWorld) HandleNearestWorld();
-            }
+        protected virtual void FixedUpdate()
+        {
+            if (rb && nearestWorld)
+                HandleWorldPhysics();
         }
         #endregion;
 
         #region Custom Methods
-        protected virtual void HandleNearestWorld()
+        protected virtual void HandleWorldPhysics()
         {
             if (applyGravity)
                 HandleGravity();
+
             HandleFallingThroughWorld(nearestWorld);
         }
 
@@ -82,9 +85,7 @@ namespace DW.Vehicles
             debug = finalGravity;
 
             if (finalGravity != Vector3.zero)
-            {
                 rb.AddForce(finalGravity);
-            }
         }
 
 

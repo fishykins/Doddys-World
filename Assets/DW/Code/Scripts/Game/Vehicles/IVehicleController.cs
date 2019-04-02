@@ -19,6 +19,7 @@ namespace DW.Vehicles
         bool IsLocal { get; }
         SceneInstance Scene { get; }
         Transform Transform { get; }
+        ICameraController CameraController { get; }
 
         string Initialize(SceneInstance scene, long origin, string prefab, int index);
         void SetInput(IInput input);

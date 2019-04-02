@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca68fedcda6ac74ab7bd60fc7e0fb38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StandardG: 4
+  StandardG: 9.81
   StandardWorldRadius: 6000
 --- !u!114 &179344704
 MonoBehaviour:

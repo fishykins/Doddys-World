@@ -25,6 +25,8 @@ namespace DW.Vehicles
         private bool isLocal = false;
         private IPhysicsBody body; //The main (and only) body we care about
         private Animator animator;
+        private ICameraController cameraController;
+        private HumanThirdPersonCam thirdPersonCam;
         #endregion
 
         #region Properties
@@ -39,6 +41,7 @@ namespace DW.Vehicles
         public List<IPhysicsBody> PhysicsBodies { get { return physicsBodies; } }
         public IInput Input { get { return input; } }
         public Transform Transform { get { return transform; } }
+        public ICameraController CameraController { get { return cameraController; } }
         #endregion
 
         #region Unity Methods
@@ -47,6 +50,13 @@ namespace DW.Vehicles
             rb = GetComponent<Rigidbody>();
             body = GetComponent<HumanBody>();
             animator = GetComponent<Animator>();
+            thirdPersonCam = GetComponent<HumanThirdPersonCam>();
+
+            if (thirdPersonCam)
+            {
+                cameraController = thirdPersonCam;
+            }
+            
         }
 
         private void Update()

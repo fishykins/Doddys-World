@@ -69,9 +69,9 @@ namespace DW.Vehicles
         #endregion
 
         #region Custom Methods
-        protected override void HandleNearestWorld()
+        protected override void HandleWorldPhysics()
         {
-            base.HandleNearestWorld();
+            base.HandleWorldPhysics();
 
             Vector3 down = nearestWorld.Vector3Down(transform.position, false);
 

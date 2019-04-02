@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Unifish {
+namespace DW.Player {
 	public class PlayerLibrary : MonoBehaviour {
 		#region Variables
-
 		#endregion;
 
 		#region Properties
@@ -13,13 +12,7 @@ namespace Unifish {
 		#endregion;
 
 		#region Unity Methods
-		void Start () {
-			
-		}
 
-		void Update () {
-			
-		}
 		#endregion;
 
         #region Custom Methods
