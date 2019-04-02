@@ -24,6 +24,7 @@ namespace DW.Vehicles
         private SceneInstance scene;
         private bool isLocal = false;
         private IPhysicsBody body; //The main (and only) body we care about
+        private Animator animator;
         #endregion
 
         #region Properties
@@ -44,6 +45,17 @@ namespace DW.Vehicles
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+            body = GetComponent<HumanBody>();
+            animator = GetComponent<Animator>();
+        }
+
+        private void Update()
+        {
+            if (animator && input != null)
+            {
+                animator.SetFloat("Speed", input.ZAxis);
+                //animator.SetFloat("Direction", input.YRot); //So ugly
+            }
         }
         #endregion
 
@@ -56,6 +68,12 @@ namespace DW.Vehicles
             this.index = index;
             uniqueIdentifier = origin + "_" + index;
 
+            if (body != null)
+            {
+                physicsBodies.Add(body);
+                body.Initialize(this);
+            }
+
             scene.Log(uniqueIdentifier + " has initialized");
 
             return uniqueIdentifier;
@@ -63,7 +81,7 @@ namespace DW.Vehicles
 
         public void SetInput(IInput input)
         {
-            input = this.input;
+            this.input = input;
         }
 
         public void SetHost(long newHost)
@@ -92,12 +110,6 @@ namespace DW.Vehicles
 
         public void AddPhysicsBody(IPhysicsBody body)
         {
-            //If we dont have a rigidbody, we should use this one
-            if (!rb)
-            {
-                rb = body.Transform.GetComponent<Rigidbody>();
-            }
-
             physicsBodies.Add(body);
             body.Initialize(this);
 
