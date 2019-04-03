@@ -129,7 +129,7 @@ namespace DW {
 
                 if (objectName == null) return;
 
-                GameObject playerObject = SpawnVehicle(objectName, worldManager.RandomWorld(), new Vector2(0f,0f)); //worldManager.RandomLatLon()
+                GameObject playerObject = SpawnVehicle(objectName, worldManager.RandomWorld(), PlayerLibrary.instance.spawnPos); //worldManager.RandomLatLon()
                 if (playerObject) {
                     SetControlTarget(playerObject);
                     Cursor.lockState = CursorLockMode.Locked;

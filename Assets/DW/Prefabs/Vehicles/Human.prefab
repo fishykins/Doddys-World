@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 3013567616565472054}
   - component: {fileID: 5822534310899720164}
   - component: {fileID: 2187793628793018156}
+  - component: {fileID: 3384684921906631788}
   - component: {fileID: 871306593441952751}
   - component: {fileID: 8255458596621723933}
   - component: {fileID: 8691081894855896424}
@@ -255,10 +256,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: {x: 0, y: 0, z: 0}
   applyGravity: 1
-  animator: {fileID: 0}
-  groundedRange: 0.4
+  groundedRange: 1
   movementSpeed: 5
   jumpPower: 1000
+  turnSpeed: 180
+  targetDirection: 0
 --- !u!114 &2187793628793018156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +279,21 @@ MonoBehaviour:
   rotationSmoothTime: 0.1
   target: {fileID: 7480305587014477437}
   invert: 0
+--- !u!114 &3384684921906631788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6849560852696463273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0beba307267b2e543bd1ad33f2782440, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 5
+  maxAngularSpeed: 360
+  lerpAmount: 0.11
 --- !u!114 &871306593441952751
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,7 +9,6 @@ namespace DW.Vehicles
     {
         #region Variables
         //Public & Serialized
-        public Animator animator;
         [SerializeField]
         private float groundedRange = 3f;
         [SerializeField]
@@ -17,12 +16,13 @@ namespace DW.Vehicles
         [SerializeField]
         private float jumpPower = 2000f;
         [SerializeField]
-        private float turnSpeed = 5f;
+        private float turnSpeed = 180f;
         [SerializeField]
-        private float turnSmoothing = 0.1f;
+        private float turningSpeedPenalty = 2f;
+        [SerializeField]
 
         [HideInInspector]
-        public Quaternion targetDirection;
+        public float targetDirection;
 
         //Private
         private bool grounded = false;
@@ -30,9 +30,10 @@ namespace DW.Vehicles
         private float stun = 0f; //how long a human is stunned for. 
         private float braceTime = 0f; //Time that player hit "crouch"
         private Vector3 down;
-        private float yaw;
+        private float yDirection;
         private Vector3 currentRotation;
         private Vector3 smmothVelocity;
+        private Animator animator;
         #endregion;
 
         #region Properties
@@ -40,6 +41,11 @@ namespace DW.Vehicles
         #endregion;
 
         #region Unity Methods
+        protected override void Awake()
+        {
+            base.Awake();
+            animator = GetComponent<Animator>();
+        }
         protected override void Start()
         {
             base.Start();
@@ -73,58 +79,43 @@ namespace DW.Vehicles
 
             grounded = UnityEngine.Physics.Raycast(feetPos, down, out hit, groundedRange);
 
-            if (grounded)
+            //if (grounded)
+            //{
+            if (controller != null)
             {
-                if (controller != null)
-                {
-                    if (controller.Input != null)
-                        HandleWorldInput(controller.Input, hit);
-                }
-
-                OrientateToWorld(100f);
+                if (controller.Input != null)
+                    HandleInputThirdPerson(controller.Input, hit);
             }
 
             Color color = (grounded) ? Color.green : Color.red;
             Debug.DrawLine(feetPos, targetPos, color);
         }
 
-        protected virtual void HandleWorldInput(IInput input, RaycastHit hit)
+        /// <summary>
+        /// Third person mode input
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="hit"></param>
+        protected virtual void HandleInputThirdPerson(IInput input, RaycastHit hit)
         {
-            Vector3 targetDirection = Vector3.zero;
-
-            //Running!
-            if (input.ZAxis != 0)
-            {
-                targetDirection += Vector3.Cross(transform.right, hit.normal) * input.ZAxis;
-            }
-
-            //Jumping!
-            if (input.YAxis > 0 && grounded && !jumping)
-            {
-                jumping = true;
-                braceTime = 0f;
-                rb.AddForce(-down * jumpPower, ForceMode.Impulse);
-                rb.AddForce(targetDirection * movementSpeed, ForceMode.VelocityChange);
-            }
-
+            Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, -down);
+            Vector2 walkingDirection = new Vector2(input.XAxis, input.ZAxis).normalized;
+            float turnPenalty = Mathf.InverseLerp(0f, movementSpeed, rb.velocity.magnitude) * turningSpeedPenalty; //TODO:Impliment this
+            float step = turnSpeed * Time.fixedDeltaTime;
 
             
 
-            //Moving at the end
-            Vector3 movePoistion = transform.position + (targetDirection * Time.fixedDeltaTime * movementSpeed);
+            if (walkingDirection != Vector2.zero)
+            {
+                yDirection = (Mathf.Atan2(walkingDirection.x, walkingDirection.y) * Mathf.Rad2Deg) + targetDirection;
+                targetRotation *= Quaternion.AngleAxis(yDirection, Vector3.up);
+                rb.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
+            }
+
+            float targetSpeed = movementSpeed * Mathf.Clamp01(new Vector2(input.XAxis, input.ZAxis).magnitude);
+            Vector3 forward = Vector3.Cross(transform.right, hit.normal);
+            Vector3 movePoistion = rb.position + (forward * Time.fixedDeltaTime * targetSpeed);
             rb.MovePosition(movePoistion);
-        }
-
-        private void OrientateToWorld(float speed)
-        {
-            //Debug.DrawRay(transform.position, transform.position + down * 2f);
-
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, -down) * transform.rotation;
-
-            // The step size is equal to speed times frame time.
-            float step = speed * Time.fixedDeltaTime;
-
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
         }
         #endregion
     }

@@ -59,14 +59,6 @@ namespace DW.Vehicles
             
         }
 
-        private void Update()
-        {
-            if (animator && input != null)
-            {
-                animator.SetFloat("Speed", input.ZAxis);
-                //animator.SetFloat("Direction", input.YRot); //So ugly
-            }
-        }
         #endregion
 
         #region Custom Methods

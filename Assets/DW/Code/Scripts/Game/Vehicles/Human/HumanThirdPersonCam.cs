@@ -51,9 +51,11 @@ namespace DW
             this.cam = cam;
         }
 
+        /// <summary>
+        /// This is a sexy method that took way too long to write
+        /// </summary>
         public void UpdateCamera()
         {
-            //This is working on the assumption that we found a controller in Awake. We should really check, but lets assume we know how to build assets by now...
             IInput input = controller.Input;
             if (input == null || !cam) return;
 
@@ -62,10 +64,12 @@ namespace DW
             pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
             currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smmothVelocity, rotationSmoothTime);
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, -body.Down) * transform.rotation;
-            
+            Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, -body.Down);
+
             cam.rotation = targetRotation * Quaternion.Euler(currentRotation);
             cam.position = target.position - cam.forward * orbitDistance;
+
+            body.targetDirection = yaw;
         }
     }
 }
