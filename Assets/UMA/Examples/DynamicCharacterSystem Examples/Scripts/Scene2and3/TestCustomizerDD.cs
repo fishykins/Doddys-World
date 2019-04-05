@@ -146,7 +146,8 @@ namespace UMA.CharacterSystem.Examples
 			}
 			else
 			{
-				converterCustomizer.BonesCreated.AddListener(BonesCreated);
+				//!FIXME: This breaks any builds- fix!
+				//converterCustomizer.BonesCreated.AddListener(BonesCreated);
 			}
 		}
 

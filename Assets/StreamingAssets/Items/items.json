@@ -1,0 +1,11 @@
+{
+    "id": 1,
+    "name": "testitem",
+    "displayName": "Test Item",
+    "description": "An item used for testing",
+    "stats" : 
+    {
+        "goon" : 10,
+        "Froon" : 4
+    }
+}

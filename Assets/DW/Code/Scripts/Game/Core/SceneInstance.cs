@@ -10,12 +10,14 @@ using Unifish;
 using PlanetaryTerrain;
 
 
-namespace DW {
+namespace DW
+{
     /// <summary>
     /// A sceneInstance is the main, most important thing for each game "instance". All objects should have access to one of these!
     /// When something needs doing, it should be done here. The SceneInstance will deligate to one of its managers to do the actual work
     /// </summary>
-	public class SceneInstance : MonoBehaviour {
+	public class SceneInstance : MonoBehaviour
+    {
         #region Variables
         //Public & Serialized
 
@@ -32,7 +34,7 @@ namespace DW {
         private WorldManager worldManager;
         private VehicleManager vehicleManager;
         private PlayerManager playerManager;
-        
+
         private SceneStatus status;
 
         private List<IGravityBody> gravityBodies = new List<IGravityBody>();
@@ -82,7 +84,8 @@ namespace DW {
             worldManager = gameObject.AddComponent<WorldManager>();
             worldManager.Initialize(this);
 
-            if (!headless) {
+            if (!headless)
+            {
                 playerManager = gameObject.AddComponent<PlayerManager>();
                 playerManager.Initialize(this);
             }
@@ -93,20 +96,23 @@ namespace DW {
 
         private IEnumerator WaitForManagers()
         {
-            while (status == SceneStatus.initializing) {
+            while (status == SceneStatus.initializing)
+            {
 
                 bool playerManagerOk = headless;
-                if (!headless) {
+                if (!headless)
+                {
                     //We have a playerManager so check that.
                     playerManagerOk = (playerManager.Status == ManagerStatus.ready);
                 }
 
                 //Check all managers have finished their inits. 
-                if (worldManager.Status == ManagerStatus.ready && 
-                    networkManager.Status == ManagerStatus.ready && 
+                if (worldManager.Status == ManagerStatus.ready &&
+                    networkManager.Status == ManagerStatus.ready &&
                     vehicleManager.Status == ManagerStatus.ready &&
                     playerManagerOk
-                ) {
+                )
+                {
                     status = SceneStatus.postInit;
                     PostInitialization();
                 }
@@ -123,17 +129,21 @@ namespace DW {
             status = SceneStatus.ready;
             Log("PostInitialization starting...", 12, "yellow");
 
-            if (!Headless) {
+            if (!Headless)
+            {
                 //We have an interface- spawn a player!
                 string objectName = VehicleLibrary.instance.GetPrefabName(VehicleLibrary.instance.playerObject);
 
                 if (objectName == null) return;
 
                 GameObject playerObject = SpawnVehicle(objectName, worldManager.RandomWorld(), PlayerLibrary.instance.spawnPos); //worldManager.RandomLatLon()
-                if (playerObject) {
+                if (playerObject)
+                {
                     SetControlTarget(playerObject);
                     Cursor.lockState = CursorLockMode.Locked;
                 }
+
+                SpawnItem(0, playerObject.transform.position + new Vector3(0f, 4f, 0f));
             }
         }
 
@@ -174,34 +184,61 @@ namespace DW {
         }
         #endregion
 
+        public GameObject SpawnItem(int type, Vector3 position)
+        {
+            Item itemType = ItemLibrary.instance.GetItem(type);
+            if (itemType == null) return null;
+
+            GameObject item = Instantiate(ItemLibrary.instance.worldItem);
+            item.transform.position = position;
+
+            item.transform.parent = gameObject.transform;
+            Unifish.UnityScene.SetLayerRecursively(item, layer);
+
+            IPhysicsBody body = item.GetComponent<IPhysicsBody>();
+            if (body == null)
+            {
+                LogError("Spawned item with no physicsBody- removing again");
+                Destroy(item);
+                return null;
+            }
+
+            body.Initialize(this);
+            Log("Spawned item " + itemType.Index + " (" + itemType.displayName + ")");
+            return item;
+        }
 
         #region Debugging
         private string LogParse(string message, string messageColour, bool header)
         {
-            if (messageColour != "") {
+            if (messageColour != "")
+            {
                 message = "<b><color=" + messageColour + ">" + message + "</color></b>";
             }
-            if (header) {
+            if (header)
+            {
                 return "<size=" + headerSize + ">" + debugHeader + message + "</size>";
             }
             return debugHeader + message;
         }
         public void Log(string message, int priority = 1, string colour = "", bool header = false)
         {
-            if (priority >= GameMaster.instance.LogThreshhold) {
+            if (priority >= GameMaster.instance.LogThreshhold)
+            {
                 Debug.Log(LogParse(message, colour, header));
             }
         }
         public void LogWarning(string message, int priority = 7, string colour = "", bool header = false)
         {
-            if (priority >= GameMaster.instance.LogThreshhold) {
+            if (priority >= GameMaster.instance.LogThreshhold)
+            {
                 Debug.LogWarning(LogParse(message, colour, header));
             }
         }
         public void LogError(string message, int priority = 12, string colour = "", bool header = false)
         {
             //if (priority >= GameMaster.instance.LogThreshhold) {
-                Debug.LogError(LogParse(message, colour, header));
+            Debug.LogError(LogParse(message, colour, header));
             //}
         }
         #endregion

@@ -18,7 +18,7 @@ namespace DW.Vehicles
         [SerializeField]
         private float turnSpeed = 180f;
         [SerializeField]
-        private float turningSpeedPenalty = 2f;
+        private float turningSpeedBonus = 180f;
         [SerializeField]
 
         [HideInInspector]
@@ -98,12 +98,15 @@ namespace DW.Vehicles
         /// <param name="hit"></param>
         protected virtual void HandleInputThirdPerson(IInput input, RaycastHit hit)
         {
+            float targetSpeed = movementSpeed * Mathf.Clamp01(new Vector2(input.XAxis, input.ZAxis).magnitude);
+            Vector3 forward = Vector3.Cross(transform.right, hit.normal);
+            Vector3 movePoistion = rb.position + (forward * Time.fixedDeltaTime * targetSpeed);
+            rb.MovePosition(movePoistion);
+
             Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, -down);
             Vector2 walkingDirection = new Vector2(input.XAxis, input.ZAxis).normalized;
-            float turnPenalty = Mathf.InverseLerp(0f, movementSpeed, rb.velocity.magnitude) * turningSpeedPenalty; //TODO:Impliment this
-            float step = turnSpeed * Time.fixedDeltaTime;
-
-            
+            float turnBonus = Mathf.InverseLerp(movementSpeed, 0f, targetSpeed) * turningSpeedBonus;
+            float step = (turnSpeed + turnBonus) * Time.fixedDeltaTime;
 
             if (walkingDirection != Vector2.zero)
             {
@@ -111,11 +114,6 @@ namespace DW.Vehicles
                 targetRotation *= Quaternion.AngleAxis(yDirection, Vector3.up);
                 rb.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
             }
-
-            float targetSpeed = movementSpeed * Mathf.Clamp01(new Vector2(input.XAxis, input.ZAxis).magnitude);
-            Vector3 forward = Vector3.Cross(transform.right, hit.normal);
-            Vector3 movePoistion = rb.position + (forward * Time.fixedDeltaTime * targetSpeed);
-            rb.MovePosition(movePoistion);
         }
         #endregion
     }
