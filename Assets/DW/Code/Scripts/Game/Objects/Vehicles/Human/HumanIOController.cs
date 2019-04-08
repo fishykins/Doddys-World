@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using Microsoft.Scripting.Hosting;
 using UnityEngine;
-using DW.Physics;
 using Lidgren.Network;
+using IronPython.Hosting;
+using DW.Physics;
 
 namespace DW.Objects
 {
@@ -14,6 +17,8 @@ namespace DW.Objects
         //Private
         private IInput input;
         private Rigidbody rb;
+        private dynamic pythoninputFunc;
+        private bool hasInputFunction = false;
 
         private SceneInstance scene;
         private IPhysicsBody body; //The main (and only) body we care about
@@ -42,8 +47,27 @@ namespace DW.Objects
             {
                 cameraController = thirdPersonCam;
             }
+
+            //Python
+            string path = Application.persistentDataPath + "/Custom Scripts/human.py";
+            if (File.Exists(path))
+            {
+                string code = File.ReadAllText(path);
+                ScriptEngine pythonEngine = global::UnityPython.CreateEngine(new string[] { "UnityEngine", "DW" });
+                ScriptSource pythonSource = pythonEngine.CreateScriptSourceFromString(code);
+                ScriptScope pythonScope = pythonEngine.CreateScope();
+                pythonSource.Execute(pythonScope);
+                hasInputFunction = pythonScope.TryGetVariable("Fnc_Input", out pythoninputFunc);
+            }
         }
 
+        private void Update()
+        {
+            if (input != null && hasInputFunction)
+            {
+                var result = pythoninputFunc(input.XAxis, input.YAxis, input.ZAxis);
+            }
+        }
         #endregion
 
         #region Custom Methods
