@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Lidgren.Network;
-using DW.Vehicles;
+using DW.Objects;
 using IngameDebugConsole;
 
-namespace DW.Network {
-	public class ClientInstance : INetwork
+namespace DW.Network
+{
+    public class ClientInstance : INetwork
     {
         #region Variables
         //Public & Serialized
@@ -73,7 +74,8 @@ namespace DW.Network {
         //Called by netowrk manager at a set tickrate, for sending data.
         public void NetworkTick()
         {
-            if (client.ServerConnection != null) {
+            if (client.ServerConnection != null)
+            {
                 HandleNetworkObjects();
             }
         }
@@ -87,8 +89,10 @@ namespace DW.Network {
         private void HandleMessages()
         {
             NetIncomingMessage message;
-            while ((message = client.ReadMessage()) != null) {
-                switch (message.MessageType) {
+            while ((message = client.ReadMessage()) != null)
+            {
+                switch (message.MessageType)
+                {
                     case NetIncomingMessageType.Data:
                         packetHandler.HandleMessage(message);
                         break;
@@ -100,13 +104,19 @@ namespace DW.Network {
         private void HandleNetworkObjects()
         {
             //Send all our objects to the server!
-            foreach (IVehicleController controller in scene.Vehicles) 
+            foreach (GameObject obj in scene.ObjectManager.Objects)
             {
-                //If we own this object, send out an update
-                if (controller.Host == client.UniqueIdentifier) {
-                    NetOutgoingMessage message = client.ServerConnection.Peer.CreateMessage(9);
-                    manager.DumpControllerToMessage(controller, ref message);
-                    client.ServerConnection.SendMessage(message, NetDeliveryMethod.ReliableOrdered, 1);
+                INetController controller = obj.GetComponent<INetController>();
+
+                if (controller != null)
+                {
+                    //If we own this object, send out an update. TODO: dont send if netController returns false from packet Processing
+                    if (controller.Host == client.UniqueIdentifier)
+                    {
+                        NetOutgoingMessage message = client.ServerConnection.Peer.CreateMessage(9);
+                        manager.DumpNetControllerToMessage(controller, ref message);
+                        client.ServerConnection.SendMessage(message, NetDeliveryMethod.ReliableOrdered, 1);
+                    }
                 }
             }
         }
@@ -118,10 +128,12 @@ namespace DW.Network {
             string info = "";
             info += "Status: " + client.ConnectionStatus.ToString() + "(Scroll for more data)\n";
             info += "Local ID: " + Identifier + "\n";
-            if (client.ServerConnection != null) {
+            if (client.ServerConnection != null)
+            {
                 info += "Server ID: " + client.ServerConnection.RemoteUniqueIdentifier + "\n";
             }
-            else {
+            else
+            {
                 info += "No Server conection!" + "\n";
             }
 

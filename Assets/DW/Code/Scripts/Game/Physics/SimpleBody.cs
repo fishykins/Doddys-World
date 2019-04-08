@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DW.Physics;
 
-namespace DW.Vehicles {
+namespace DW.Objects {
 	public class SimpleBody : MonoBehaviour {
         #region Variables
         //Public & Serialized

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Lidgren.Network;
-using DW.Vehicles;
+using DW.Objects;
 
 namespace DW.Network
 {
@@ -88,8 +88,8 @@ namespace DW.Network
             string nuid = message.ReadString();
             scene.Log(nuid + " was requested");
 
-            IVehicleController networkVehicle;
-            if (scene.VehicleManager.TryGetVehicle(nuid, out networkVehicle))
+            INetController networkVehicle;
+            if (scene.ObjectManager.TryGetNetVehicle(nuid, out networkVehicle))
             {
                 //prep message
                 NetOutgoingMessage MessageOut;
@@ -115,7 +115,7 @@ namespace DW.Network
             int index = message.ReadInt32();
             string prefab = message.ReadString();
 
-            scene.VehicleManager.SpawnFromNetwork(prefab, origin, index, host);
+            scene.ObjectManager.SpawnFromNetwork(prefab, origin, index, host);
         }
 
         /// <summary>
@@ -131,8 +131,8 @@ namespace DW.Network
 
             string uniqueIdentifier = message.ReadString();
 
-            IVehicleController networkVehicle;
-            if (scene.VehicleManager.TryGetVehicle(uniqueIdentifier, out networkVehicle))
+            INetController networkVehicle;
+            if (scene.ObjectManager.TryGetNetVehicle(uniqueIdentifier, out networkVehicle))
             {
                 //update vehicle
                 networkVehicle.UnpackNetworkMessage(message);

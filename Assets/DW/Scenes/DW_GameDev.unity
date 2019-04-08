@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 179344704}
   - component: {fileID: 179344703}
   - component: {fileID: 179344702}
+  - component: {fileID: 179344707}
   m_Layer: 0
   m_Name: Library
   m_TagString: Untagged
@@ -197,18 +198,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 179344700}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5c85fa7d9acfbc40a3b217517029e6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 11901c09f57108542b33d2474417a148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   networkObjects:
   - name: Human
     netObject: {fileID: 6849560852696463273, guid: 75966ab6a7083674a8e58c393a76846f,
-      type: 3}
-  - name: Bunny
-    netObject: {fileID: 6327338222591043312, guid: 8e56a46065b35eb4dab9ed1b0ebfe657,
-      type: 3}
-  - name: Car
-    netObject: {fileID: 3213801543495973851, guid: 511974d8d58f52347a1c9b352cfaf28c,
       type: 3}
   playerObject: 0
 --- !u!114 &179344706
@@ -226,6 +221,20 @@ MonoBehaviour:
   lidgrenID: DoddysWorld
   tickRate: 32
   infoThreshold: 0
+--- !u!114 &179344707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179344700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef1d5c33d881f1b4c8b838b3a7d3efed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldItem: {fileID: 657770542230588626, guid: 09e9682ef3f1d8449874274b9ee6dc1f,
+    type: 3}
 --- !u!1 &708142100
 GameObject:
   m_ObjectHideFlags: 0

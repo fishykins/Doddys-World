@@ -4,7 +4,7 @@ using UnityEngine;
 using DW.Physics;
 using PlanetaryTerrain;
 
-namespace DW.Vehicles
+namespace DW.Objects
 {
     //The base PhysicsBody handles simplistic stuff, such as finding world data and calculating gravity. Controllers are not nescisary for these bois
     [RequireComponent(typeof(Rigidbody))]
@@ -20,14 +20,14 @@ namespace DW.Vehicles
         protected Rigidbody rb;
         protected SceneInstance scene;
         protected Planet nearestWorld;
-        protected IVehicleController controller;
+        protected IIOController controller;
 
         #endregion;
 
         #region Properties
         public SceneInstance Scene { get { return scene; } }
         public Transform Transform { get { return transform; } }
-        public IVehicleController Controller { get { return controller; } set { controller = value; } }
+        public IIOController Controller { get { return controller; } set { controller = value; } }
         #endregion;
 
         #region Unity Methods
@@ -63,12 +63,20 @@ namespace DW.Vehicles
             HandleFallingThroughWorld(nearestWorld);
         }
 
+        /// <summary>
+        /// Initializes with just a scene. Used for objects that dont have IO controllers
+        /// </summary>
+        /// <param name="scene"></param>
         public void Initialize(SceneInstance scene)
         {
             this.scene = scene;
         }
 
-        public void Initialize(IVehicleController controller)
+        /// <summary>
+        /// Initializes as a slave to an IO controller.
+        /// </summary>
+        /// <param name="controller"></param>
+        public void Initialize(IIOController controller)
         {
             this.controller = controller;
             this.scene = controller.Scene;
@@ -96,6 +104,11 @@ namespace DW.Vehicles
                 //We are at less than %80 of the worlds radius- lets assume we have fallen through and fix...
                 float height = world.HeightAtXYZ(transform.position / world.radius);
             }
+        }
+
+        public void Enable(bool enabled)
+        {
+            this.enabled = enabled;
         }
         #endregion
     }

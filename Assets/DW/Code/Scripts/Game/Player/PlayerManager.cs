@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DW.Physics;
-using DW.Vehicles;
+using DW.Objects;
 
 namespace DW.Player
 {
@@ -16,14 +16,14 @@ namespace DW.Player
         private SceneInstance scene;
         private ManagerStatus status;
 
-        private IVehicleController vehicleController;
+        private IIOController vehicleController;
         private ICameraController cameraController;
         private IInput input;
         #endregion;
 
         #region Properties
         public ManagerStatus Status { get { return status; } }
-        public IVehicleController ControlBody { get { return vehicleController; } }
+        public IIOController ControlBody { get { return vehicleController; } }
         public IInput Input { get { return input; } }
         #endregion;
 
@@ -54,7 +54,7 @@ namespace DW.Player
         /// <param name="target"></param>
         public void SetControlTarget(GameObject target)
         {
-            IVehicleController controller = target.GetComponent<IVehicleController>();
+            IIOController controller = target.GetComponent<IIOController>();
 
             if (controller == null)
             {
@@ -87,10 +87,10 @@ namespace DW.Player
             else
             {
                 cameraController = null;
-                scene.LogWarning(vehicleController.Prefab + " does not have a camera controller- camera will not uptdate!");
+                scene.LogWarning(vehicleController.Transform.name + " does not have a camera controller- camera will not uptdate!");
             }
 
-            scene.Log("Control target set to " + vehicleController.UniqueIdentifier);
+            scene.Log("Control target set to " + vehicleController.Transform.name);
         }
         #endregion
     }

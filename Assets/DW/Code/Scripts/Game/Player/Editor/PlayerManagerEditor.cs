@@ -32,7 +32,7 @@ namespace DW.Player {
             debugInfo += "Status: " + manager.Status + "\n";
 
             if (manager.ControlBody != null) {
-                debugInfo += "Control Target: " + manager.ControlBody.UniqueIdentifier;
+                debugInfo += "Control Target: " + manager.ControlBody.Transform.name;
             }
 
             GUILayout.Space(20);

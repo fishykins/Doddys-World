@@ -23,7 +23,7 @@ namespace DW.Worlds
             debugInfo += "Status: " + scene.Status + "\n";
             debugInfo += "World Count: " + scene.Worlds.Count + "\n";
             debugInfo += "G-Object Count: " + scene.GravityBodies.Count + "\n";
-            debugInfo += "Vehicle Count: " + scene.Vehicles.Count + "\n";
+            debugInfo += "Object Count: " + scene.ObjectManager.Objects.Count + "\n";
 
             GUILayout.Space(20);
             EditorGUILayout.TextArea(debugInfo, GUILayout.Height(100));

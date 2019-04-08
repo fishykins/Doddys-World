@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Lidgren.Network;
-using DW.Vehicles;
+using DW.Objects;
 using IngameDebugConsole;
 
-namespace DW.Network {
+namespace DW.Network
+{
     public class ServerInstance : INetwork
     {
         #region Variables
@@ -66,7 +67,8 @@ namespace DW.Network {
         /// </summary>
         public void Shutdown()
         {
-            if (server != null) {
+            if (server != null)
+            {
                 server.Shutdown("byeee");
                 scene.Log("Server has shutdown.", manager.debugLevel + 20, "orange");
             }
@@ -83,17 +85,24 @@ namespace DW.Network {
 
         public void NetworkTick()
         {
-            HandleNetworkObjects();
+            if (scene.ObjectManager != null)
+                HandleNetworkObjects();
         }
 
         private void HandleNetworkObjects()
         {
             //Send all our objects to the server!
-            foreach (IVehicleController controller in scene.Vehicles) {
+            foreach (GameObject obj in scene.ObjectManager.Objects)
+            {
 
-                NetOutgoingMessage message = server.CreateMessage(8);
-                manager.DumpControllerToMessage(controller, ref message);
-                server.SendToAll(message, NetDeliveryMethod.ReliableOrdered, 1);
+                INetController controller = obj.GetComponent<INetController>();
+
+                if (controller != null)
+                {
+                    NetOutgoingMessage message = server.CreateMessage(8);
+                    manager.DumpNetControllerToMessage(controller, ref message);
+                    server.SendToAll(message, NetDeliveryMethod.ReliableOrdered, 1);
+                }
             }
         }
 
@@ -101,8 +110,10 @@ namespace DW.Network {
         private void HandleMessages()
         {
             NetIncomingMessage message;
-            while ((message = server.ReadMessage()) != null) {
-                switch (message.MessageType) {
+            while ((message = server.ReadMessage()) != null)
+            {
+                switch (message.MessageType)
+                {
                     case NetIncomingMessageType.DebugMessage:
                     case NetIncomingMessageType.WarningMessage:
                     case NetIncomingMessageType.ErrorMessage:
@@ -128,7 +139,8 @@ namespace DW.Network {
             string info = "";
             info += "Status: " + server.Status.ToString() + "(Scroll for more info)\n";
             info += "NUID: " + Identifier + "\n";
-            foreach (var connection in server.Connections) {
+            foreach (var connection in server.Connections)
+            {
                 info += "Conection: " + connection.RemoteUniqueIdentifier + "\n";
             }
 

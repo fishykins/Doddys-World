@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DW.Network;
 using DW.Worlds;
-using DW.Vehicles;
+using DW.Objects;
 using DW.Physics;
 using DW.Player;
 using Unifish;
@@ -32,13 +32,12 @@ namespace DW
 
         private NetworkManager networkManager;
         private WorldManager worldManager;
-        private VehicleManager vehicleManager;
+        private ObjectManager objectManager;
         private PlayerManager playerManager;
 
         private SceneStatus status;
 
         private List<IGravityBody> gravityBodies = new List<IGravityBody>();
-        private List<IVehicleController> vehicles = new List<IVehicleController>();
         #endregion;
 
         #region Properties
@@ -53,10 +52,8 @@ namespace DW
 
         public List<Planet> Worlds { get { return worldManager.Worlds; } }
         public List<IGravityBody> GravityBodies { get { return gravityBodies; } }
-        public List<IVehicleController> Vehicles { get { return vehicles; } }
-
         public NetworkManager NetworkManager { get { return networkManager; } }
-        public VehicleManager VehicleManager { get { return vehicleManager; } }
+        public ObjectManager ObjectManager { get { return objectManager; } }
         public WorldManager WorldManager { get { return worldManager; } }
         public PlayerManager PlayerManager { get { return playerManager; } }
         #endregion
@@ -78,8 +75,8 @@ namespace DW
             networkManager = gameObject.AddComponent<NetworkManager>();
             networkManager.Initialize(this);
 
-            vehicleManager = gameObject.AddComponent<VehicleManager>();
-            vehicleManager.Initialize(this);
+            objectManager = gameObject.AddComponent<ObjectManager>();
+            objectManager.Initialize(this);
 
             worldManager = gameObject.AddComponent<WorldManager>();
             worldManager.Initialize(this);
@@ -109,7 +106,7 @@ namespace DW
                 //Check all managers have finished their inits. 
                 if (worldManager.Status == ManagerStatus.ready &&
                     networkManager.Status == ManagerStatus.ready &&
-                    vehicleManager.Status == ManagerStatus.ready &&
+                    objectManager.Status == ManagerStatus.ready &&
                     playerManagerOk
                 )
                 {
@@ -132,7 +129,7 @@ namespace DW
             if (!Headless)
             {
                 //We have an interface- spawn a player!
-                string objectName = VehicleLibrary.instance.GetPrefabName(VehicleLibrary.instance.playerObject);
+                string objectName = ObjectLibrary.instance.GetPrefabName(ObjectLibrary.instance.playerObject);
 
                 if (objectName == null) return;
 
@@ -142,8 +139,6 @@ namespace DW
                     SetControlTarget(playerObject);
                     Cursor.lockState = CursorLockMode.Locked;
                 }
-
-                SpawnItem(0, playerObject.transform.position + new Vector3(0f, 4f, 0f));
             }
         }
 
@@ -158,7 +153,7 @@ namespace DW
         /// <returns></returns>
         public GameObject SpawnGameObject(string name)
         {
-            return (vehicleManager) ? vehicleManager.SpawnGameObject(name) : null;
+            return (objectManager) ? objectManager.SpawnGameObject(name) : null;
         }
 
         /// <summary>
@@ -170,7 +165,7 @@ namespace DW
         /// <returns></returns>
         public GameObject SpawnVehicle(string prefabName, Planet planet, Vector2 latLon)
         {
-            return (vehicleManager && planet) ? vehicleManager.SpawnVehicle(prefabName, planet, latLon) : null;
+            return (objectManager && planet) ? objectManager.SpawnVehicle(prefabName, planet, latLon) : null;
         }
 
         public void SetControlTarget(GameObject target)
@@ -186,26 +181,7 @@ namespace DW
 
         public GameObject SpawnItem(int type, Vector3 position)
         {
-            Item itemType = ItemLibrary.instance.GetItem(type);
-            if (itemType == null) return null;
-
-            GameObject item = Instantiate(ItemLibrary.instance.worldItem);
-            item.transform.position = position;
-
-            item.transform.parent = gameObject.transform;
-            Unifish.UnityScene.SetLayerRecursively(item, layer);
-
-            IPhysicsBody body = item.GetComponent<IPhysicsBody>();
-            if (body == null)
-            {
-                LogError("Spawned item with no physicsBody- removing again");
-                Destroy(item);
-                return null;
-            }
-
-            body.Initialize(this);
-            Log("Spawned item " + itemType.Index + " (" + itemType.displayName + ")");
-            return item;
+            return null;
         }
 
         #region Debugging

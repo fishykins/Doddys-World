@@ -199,7 +199,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3460271692251420252}
-  - component: {fileID: 1464381527100435145}
   - component: {fileID: 3579871717451270060}
   - component: {fileID: 1852091455754496385}
   - component: {fileID: 4826546445637419366}
@@ -226,20 +225,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1464381527100435145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6327338222591043312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f89f24365b609da419fbd46cf3debb8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  broadcastOverNet: 1
-  cameraRoot: {fileID: 3460271692251420252}
 --- !u!114 &3579871717451270060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,10 +348,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 4280294624668182, guid: c737dd230724d61469e1c672cf47ed9e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.131
-      objectReference: {fileID: 0}
     - target: {fileID: 95674028643950644, guid: c737dd230724d61469e1c672cf47ed9e,
         type: 3}
       propertyPath: m_Enabled
@@ -377,6 +358,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 90913c168f08728479c372bf870b4dd9, type: 2}
+    - target: {fileID: 4280294624668182, guid: c737dd230724d61469e1c672cf47ed9e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.131
+      objectReference: {fileID: 0}
     - target: {fileID: 4899618716157798, guid: c737dd230724d61469e1c672cf47ed9e, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Lidgren.Network;
-using DW.Vehicles;
+using DW.Objects;
 using IngameDebugConsole;
 
 namespace DW.Network
@@ -85,7 +85,7 @@ namespace DW.Network
             StartCoroutine(PerformTick());
         }
 
-        public void DumpControllerToMessage(IVehicleController controller, ref NetOutgoingMessage message)
+        public void DumpNetControllerToMessage(INetController controller, ref NetOutgoingMessage message)
         {
             message.Write((int)UniversalPacketType.vehicleUpdate);
             message.Write(controller.Host);
