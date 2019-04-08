@@ -723,6 +723,7 @@ MonoBehaviour:
   normalMoveSpeed: 10
   slowMoveFactor: 0.25
   fastMoveFactor: 3
+  altLook: 0
 --- !u!114 &997703742
 MonoBehaviour:
   m_ObjectHideFlags: 0

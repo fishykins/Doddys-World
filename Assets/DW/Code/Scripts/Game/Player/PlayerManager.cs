@@ -19,6 +19,8 @@ namespace DW.Player
         private IIOController vehicleController;
         private ICameraController cameraController;
         private IInput input;
+        private bool interfaceOpen = false;
+        private InteractionMenu interactionMenu;
         #endregion;
 
         #region Properties
@@ -28,11 +30,12 @@ namespace DW.Player
         #endregion;
 
         #region Unity Methods
-        private void FixedUpdate()
+        private void Update()
         {
-            
+            HandleInterface();
         }
-        private void LateUpdate() {
+        private void LateUpdate()
+        {
             if (cameraController != null)
                 cameraController.UpdateCamera();
         }
@@ -45,8 +48,6 @@ namespace DW.Player
             input = GetComponent<PlayerController>();
             status = ManagerStatus.ready;
         }
-
-
 
         /// <summary>
         /// Assignes player input to vehicle.
@@ -91,6 +92,44 @@ namespace DW.Player
             }
 
             scene.Log("Control target set to " + vehicleController.Transform.name);
+        }
+
+        private void HandleInterface()
+        {
+            if (input.Interaction)
+            {
+                //We need an interaction menu open- stat!
+                if (!interfaceOpen)
+                    OpenInterface();
+            }
+            else
+            {
+                if (interfaceOpen)
+                    CloseInterface();
+            }
+        }
+
+        private void OpenInterface()
+        {
+            interfaceOpen = true;
+            interactionMenu = new InteractionMenu();
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            scene.Log("Opened interface");
+        }
+
+        private void CloseInterface()
+        {
+            interactionMenu.Destroy();
+            interfaceOpen = false;
+            interactionMenu = null;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            scene.Log("closed interface");
         }
         #endregion
     }

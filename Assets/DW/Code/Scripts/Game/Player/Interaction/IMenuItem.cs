@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DW.InteractionMenu
+namespace DW.Player
 {
     public interface IMenuItem
     {
